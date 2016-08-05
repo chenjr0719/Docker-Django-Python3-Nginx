@@ -8,11 +8,11 @@ This **Image/Dockerfile** aims to create a container for **Django** with **Pytho
 
 The most part is referenced from [dockerfiles/django-uwsgi-nginx](https://github.com/dockerfiles/django-uwsgi-nginx).
 
-I change the version of **Python** and modify the seeting of **Nginx** to make it easier when you use static file of **Django**.
+I change the version of **Python** and modify the setting of **Nginx** to make it easier when you use static file of **Django**.
 
 ## How to use?
 
-You can build this **Dockerfile** youself:
+You can build this **Dockerfile** yourself:
 
 ```
 sudo docker build -t "chenjr0719/django-uwsgi-nginx" .
@@ -32,7 +32,7 @@ sudo docker run -itd -p 80:80 chenjr0719/django-uwsgi-nginx
 
 Now, you can see the initial project of **Django** at http://127.0.0.1
 
-You can also change it to different **port**.
+You can also change it to a different **port**.
 
 For example, use 8080:
 
@@ -66,7 +66,7 @@ If you want to use **Django** static files, you have to:
 
 1. Modify the setting of **Django**.
 
-   In the **Static files** section, add following seeting:
+   In the **Static files** section, add following setting:
 
    ```
    STATICFILES_DIRS = [
