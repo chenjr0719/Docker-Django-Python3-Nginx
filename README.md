@@ -53,7 +53,7 @@ In order to make it work properly, make sure you project name is **website**.
 If not, you need modify the setting of **uwsgi.ini** in your container:
 
 ```
-sudo docker exec $CONTAINER_ID sed -i 's|'module=website.wsgi:application'|'module=$PROJECT_NAME.wsgi:application'|g' /home/django/uwsgi.ini
+sudo docker exec $CONTAINER_ID sed -i "s|module=website.wsgi:application|module=$PROJECT_NAME.wsgi:application|g" /home/django/uwsgi.ini
 ```
 
 Or, you can just modify **uwsgi.ini** and rebuild this image.
@@ -85,7 +85,7 @@ If you want to use **Django** static files, you have to:
    You can this command:
 
    ```
-   sudo docker exec $CONTAINER_ID sed -i 's|'/home/django/website/static'|'/home/django/website/$STATIC_FOLDER_NAME'|g' /etc/nginx/sites-available/default
+   sudo docker exec $CONTAINER_ID sed -i "s|/home/django/website/static|/home/django/website/$STATIC_FOLDER_NAME|g" /etc/nginx/sites-available/default
    ```
 
     Or, modify **nginx-app.conf** and revuild this image.
