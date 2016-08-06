@@ -15,19 +15,19 @@ I change the version of **Python** and modify the setting of **Nginx** to make i
 You can build this **Dockerfile** yourself:
 
 ```
-sudo docker build -t "chenjr0719/django-uwsgi-nginx" .
+sudo docker build -t "chenjr0719/django-python3-nginx" .
 ```
 
 Or, just pull my image:
 
 ```
-sudo docker pull chenjr0719/django-uwsgi-nginx
+sudo docker pull chenjr0719/django-python3-nginx
 ```
 
 Then, run this image:
 
 ```
-sudo docker run -itd -p 80:80 chenjr0719/django-uwsgi-nginx
+sudo docker run -itd -p 80:80 chenjr0719/django-python3-nginx
 ```
 
 Now, you can see the initial project of **Django** at http://127.0.0.1
@@ -37,7 +37,7 @@ You can also change it to a different **port**.
 For example, use 8080:
 
 ```
-sudo docker run -itd -p 8080:80 chenjr0719/django-uwsgi-nginx
+sudo docker run -itd -p 8080:80 chenjr0719/django-python3-nginx
 ```
 
 ## Use your Django project?
@@ -45,7 +45,7 @@ sudo docker run -itd -p 8080:80 chenjr0719/django-uwsgi-nginx
 If you want to use your **Django** project which you already developed, use following command:
 
 ```
-sudo docker run -itd -p 80:80 -v $YOUR_PROJECET_DIR:/home/django/website chenjr0719/django-uwsgi-nginx
+sudo docker run -itd -p 80:80 -v $YOUR_PROJECET_DIR:/home/django/website chenjr0719/django-python3-nginx
 ```
 
 In order to make it work properly, make sure you project name is **website**.
