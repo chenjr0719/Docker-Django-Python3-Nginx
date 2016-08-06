@@ -27,7 +27,7 @@ COPY uwsgi.ini /home/django/
 COPY uwsgi_params /home/django/
 
 RUN mkdir -p /home/django/website
-RUN django-admin.py startproject website /home/django/website
+RUN django-admin startproject website /home/django/website
 
 EXPOSE 80
 CMD ["supervisord", "-n"]
