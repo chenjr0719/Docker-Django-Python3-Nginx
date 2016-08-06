@@ -3,13 +3,13 @@ From ubuntu:16.04
 MAINTAINER Jacob chenjr0719@gmail.com
 
 RUN apt-get update && apt-get install -y \
-	git \
+    git \
     vim \
-	python3 \
+    python3 \
     python3-pip \
     software-properties-common\
     python3-software-properties \
-	sqlite3 \
+    sqlite3 \
     supervisor
  
 
