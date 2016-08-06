@@ -4,6 +4,7 @@ MAINTAINER Jacob chenjr0719@gmail.com
 
 RUN apt-get update && apt-get install -y \
 	git \
+    vim \
 	python3 \
     python3-pip \
     software-properties-common\
