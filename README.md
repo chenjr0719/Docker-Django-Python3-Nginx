@@ -50,15 +50,13 @@ sudo docker run -itd -p 80:80 -v $YOUR_PROJECET_DIR:/home/django/website chenjr0
 
 In order to make it work properly, make sure you project name is **website**.
 
-Or, modify the setting of **uwsgi.ini**:
+If not, you need modify the setting of **uwsgi.ini** in your container:
 
 ```
-module=website.wsgi:application
+sudo docker exec $CONTAINER_ID sed -i 's|'module=website.wsgi:application'|'module=$PROJECT_NAME.wsgi:application'|g' /home/django/uwsgi.ini
 ```
 
-Replace **website** with your project name.
-
-And, rebuild this image.
+Or, you can just modify **uwsgi.ini** and rebuild this image.
 
 ## About Django static files
 
@@ -66,7 +64,7 @@ If you want to use **Django** static files, you have to:
 
 1. Modify the setting of **Django**.
 
-   In the **Static files** section, add following setting:
+   In the **Static files** section, if your static files are in templates/static, add following setting:
 
    ```
    STATICFILES_DIRS = [
@@ -76,23 +74,18 @@ If you want to use **Django** static files, you have to:
    STATIC_ROOT = os.path.join(BASE_DIR, "static")
    ```
 
-2. Run following command in your project:
+2. Run following command in your project to collect all static files of your project into a folder(In default, /static/):
 
    ```
    python manage.py collectstatic
    ```
 
-   This will collect all static files of your project into a folder(In default, static/).
+3. If your want to use different name of static folder, you need to modify the setting of **nginx-app.conf** in your container.
 
-3. If your project name is **website**, it should be all right.
-
-   If not, you have to modify the setting of **nginx-app.conf**:
+   You can this command:
 
    ```
-   # Django static file setting
-       location /static {
-           alias /home/django/website/static; # your Django project's static files
-       }
+   sudo docker exec $CONTAINER_ID sed -i 's|'/home/django/website/static'|'/home/django/website/$STATIC_FOLDER_NAME'|g' /etc/nginx/sites-available/default
    ```
 
-   Replace the **path** with your static file path.
+    Or, modify **nginx-app.conf** and revuild this image.
