@@ -54,6 +54,7 @@ If not, you need modify the setting of **uwsgi.ini** in your container:
 
 ```
 sudo docker exec $CONTAINER_ID sed -i "s|module=website.wsgi:application|module=$PROJECT_NAME.wsgi:application|g" /home/django/uwsgi.ini
+sudo docker restart $CONTAINER_ID
 ```
 
 Or, you can just modify **uwsgi.ini** and rebuild this image.
@@ -80,12 +81,13 @@ If you want to use **Django** static files, you have to:
    python manage.py collectstatic
    ```
 
-3. If your want to use different name of static folder, you need to modify the setting of **nginx-app.conf** in your container.
+3. If your want to use different name of static folder, you need to modify the setting of **nginx-site.conf** in your container.
 
    You can this command:
 
    ```
    sudo docker exec $CONTAINER_ID sed -i "s|/home/django/website/static|/home/django/website/$STATIC_FOLDER_NAME|g" /etc/nginx/sites-available/default
+   sudo docker restart $CONTAINER_ID
    ```
 
-    Or, modify **nginx-app.conf** and revuild this image.
+    Or, modify **nginx-site.conf** and rebuild this image.
