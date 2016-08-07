@@ -81,7 +81,7 @@ If you want to use **Django** static files, you have to:
    python manage.py collectstatic
    ```
 
-3. If your want to use different name of static folder, you need to modify the setting of **nginx-site.conf** in your container.
+3. If you want to use different name of static folder, you need to modify the setting of **nginx-site.conf** in your container.
 
    You can this command:
 
