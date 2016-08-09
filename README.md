@@ -2,6 +2,7 @@
 
 Dockerfile and configuration files for Django with Python 3, uWSGI, and Nginx.
 
+
 ## About this Image/Dockerfile
 
 This **Image/Dockerfile** aims to create a container for **Django** with **Python 3** and using **uWSGI**, **Nginx** to hosting.
@@ -9,6 +10,7 @@ This **Image/Dockerfile** aims to create a container for **Django** with **Pytho
 The most part is referenced from [dockerfiles/django-uwsgi-nginx](https://github.com/dockerfiles/django-uwsgi-nginx).
 
 I change the version of **Python** and modify the setting of **Nginx** to make it easier when you use static file of **Django**.
+
 
 ## How to use?
 
@@ -40,12 +42,13 @@ For example, use 8080:
 sudo docker run -itd -p 8080:80 chenjr0719/django-python3-nginx
 ```
 
+
 ## Use your Django project?
 
 If you want to use your **Django** project which you already developed, use following command:
 
 ```
-sudo docker run -itd -p 80:80 -v $YOUR_PROJECET_DIR:/home/django/website chenjr0719/django-python3-nginx
+sudo docker run -itd -p 80:80 -v $PROJECET_DIR:/home/django/website chenjr0719/django-python3-nginx
 ```
 
 In order to make it work properly, make sure you project name is **website**.
@@ -57,37 +60,53 @@ sudo docker exec $CONTAINER_ID sed -i "s|module=website.wsgi:application|module=
 sudo docker restart $CONTAINER_ID
 ```
 
-Or, you can just modify **uwsgi.ini** and rebuild this image.
 
 ## About Django static files
 
 If you want to use **Django** static files, you have to:
 
-1. Modify the setting of **Django**.
+1. Enter to your container:
 
-   In the **Static files** section, if your static files are in templates/static, add following setting:
+  ```
+  sudo docker exec -it $CONTAINER_ID bash
+  ```
 
-   ```
-   STATICFILES_DIRS = [
-       os.path.join(BASE_DIR, "templates/static"),
-   ]
+2. Modify the setting of **Django**.
 
-   STATIC_ROOT = os.path.join(BASE_DIR, "static")
-   ```
+  ```
+  SETTING_PATH=`find /home/django/website -name settings.py`
+  vim $SETTING_PATH
+  ```
 
-2. Run following command in your project to collect all static files of your project into a folder(In default, /static/):
+  In the **Static files** section, if your static files are in templates/static, add following setting:
 
-   ```
-   python manage.py collectstatic
-   ```
+  ```
+  STATICFILES_DIRS = [
+  os.path.join(BASE_DIR, "templates/static"),
+  ]
 
-3. If you want to use different name of static folder, you need to modify the setting of **nginx-site.conf** in your container.
+  STATIC_ROOT = os.path.join(BASE_DIR, "static")
+  ```
 
-   You can this command:
+3. Run the following command to collect all static files of your project into a folder.
 
-   ```
-   sudo docker exec $CONTAINER_ID sed -i "s|/home/django/website/static|/home/django/website/$STATIC_FOLDER_NAME|g" /etc/nginx/sites-available/default
-   sudo docker restart $CONTAINER_ID
-   ```
+  In default it will use /static/, you can change it by modifying STATIC_ROOT in **settings.py**
 
-    Or, modify **nginx-site.conf** and rebuild this image.
+  ```
+  echo yes | python3 /home/django/website/manage.py collectstatic
+  ```
+
+4. If you want to use different name of static folder, you need to modify the setting of **nginx-site.conf** in your container.
+
+  You can use this command:
+
+  ```
+  sed -i "s|/home/django/website/static|/home/django/website/$STATIC_FOLDER_NAME|g" /etc/nginx/sites-available/default
+  ```
+
+5. Exit your container and restart it:
+
+  ```
+  exit
+  sudo docker restart $CONTAINER_ID
+  ```
