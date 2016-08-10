@@ -21,8 +21,7 @@ COPY supervisor.conf /etc/supervisor/conf.d/
 COPY uwsgi.ini /home/django/
 COPY uwsgi_params /home/django/
 
-RUN mkdir -p /home/django/website
-RUN django-admin startproject website /home/django/website
+COPY start.sh /home/django/
 
 EXPOSE 80
-CMD ["supervisord", "-n"]
+CMD ["/bin/bash", "/home/django/start.sh"]
